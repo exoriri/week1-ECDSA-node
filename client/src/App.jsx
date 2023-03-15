@@ -2,10 +2,16 @@ import Wallet from "./Wallet";
 import Transfer from "./Transfer";
 import "./App.scss";
 import { useState } from "react";
+import { Authentification } from "./views/Authentication";
 
 function App() {
   const [balance, setBalance] = useState(0);
   const [address, setAddress] = useState("");
+  const [pk, setPk] = useState(null);
+
+  if (!pk) {
+    return <Authentification />
+  }
 
   return (
     <div className="app">

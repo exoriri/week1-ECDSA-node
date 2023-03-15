@@ -7,9 +7,18 @@ app.use(cors());
 app.use(express.json());
 
 const balances = {
-  "0x1": 100,
-  "0x2": 50,
-  "0x3": 75,
+  "0x1": {
+    secretPhrase: ['than', 'example', 'Icons', 'Use', 'button', 'Complex', 'Documents', 'library', 'Limitations', 'Cursor', 'Experimental', 'person'],
+    balance: 100
+  },
+  "0x2": {
+    secretPhrase: ['advanced', 'functions', 'message', 'considered', 'study', 'helpful', 'cryptography', 'where', 'digital', 'Computing', 'possible', 'important'],
+    balance: 50
+  },
+  "0x3": {
+    secretPhrase: ['encryption', 'party', 'private', 'algorithms', 'assumed', 'same', 'Signing', 'Community', 'reach', 'connect', 'Pace', 'choose'],
+    balance: 50
+  },
 };
 
 app.get("/balance/:address", (req, res) => {

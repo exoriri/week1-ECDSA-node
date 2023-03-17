@@ -1,28 +1,33 @@
-import Wallet from "./Wallet";
-import Transfer from "./Transfer";
 import "./App.scss";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Authentification } from "./views/Authentication";
+import WalletDashboard from "./views/WalletDashboard";
 
 function App() {
-  const [balance, setBalance] = useState(0);
-  const [address, setAddress] = useState("");
-  const [pk, setPk] = useState(null);
+  const [walletData, setWalletData] = useState({
+    privateKey: null,
+    address: null
+  });
 
-  if (!pk) {
-    return <Authentification />
-  }
+  if (!walletData.privateKey) {
+    return <Authentification 
+      setPk={(pk) => setWalletData((prevState) => ({ 
+        ...prevState, privateKey: pk 
+      }))}
+      setAddress={address => {
+        setWalletData((prevState) =>({
+          ...prevState,
+          address,
+        }))
+      }}
+    />
+  };
 
   return (
-    <div className="app">
-      <Wallet
-        balance={balance}
-        setBalance={setBalance}
-        address={address}
-        setAddress={setAddress}
-      />
-      <Transfer setBalance={setBalance} address={address} />
-    </div>
+    <WalletDashboard 
+      privateKey={walletData.privateKey}
+      address={walletData.address}
+    />
   );
 }
 

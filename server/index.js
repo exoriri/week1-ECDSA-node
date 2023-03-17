@@ -1,6 +1,10 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const secp = require("ethereum-cryptography/secp256k1");
+const { keccak256 } = require("ethereum-cryptography/keccak");
+const { sha256 } = require("ethereum-cryptography/sha256");
+const { toHex } = require("ethereum-cryptography/utils");
 const port = 3042;
 
 app.use(cors());
@@ -41,6 +45,31 @@ app.post("/send", (req, res) => {
     res.send({ balance: balances[sender] });
   }
 });
+
+app.post('/authenticate-wallet', (req, res) => {
+  const { phrase } = req.body;
+  
+  const foundWalletKey = Object.keys(balances).find(key => {
+    return JSON.stringify(phrase) === JSON.stringify(balances[key].secretPhrase)
+  });
+  
+  if (!foundWalletKey) {
+    res.status(403).send({ message: '12-key phrase is invalid' });
+  } else {
+    const pk = secp.utils.randomPrivateKey();
+    const pubKey = secp.getPublicKey(pk);
+
+    const pubKeyBytes = pubKey.slice(1, pubKey.length);
+    //ethereum address
+    const address = keccak256(pubKeyBytes).slice(-20);
+    
+    //next two lines changing strange address to correct one
+    balances[address] = balances[foundWalletKey];
+    delete balances[foundWalletKey];
+
+    res.status(200).send({ privateKey: toHex(sha256(pk)), address })
+  }
+})
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}!`);

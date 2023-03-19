@@ -1,31 +1,20 @@
 ## ECDSA Node
 
-This project is an example of using a client and server to facilitate transfers between different addresses. Since there is just a single server on the back-end handling transfers, this is clearly very centralized. We won't worry about distributed consensus for this project.
+This project is a modified version of https://github.com/alchemyplatform/ecdsa-node. Main goal of project is to create web application that allows us to make secure transactions between client/server using Public Key Cryptography.
 
-However, something that we would like to incoporate is Public Key Cryptography. By using Elliptic Curve Digital Signatures we can make it so the server only allows transfers that have been signed for by the person who owns the associated address.
+### Only users with existing wallet address and private key are allowed to make a transaction.
+Before showing wallet inrerface to user, I implemented "fake authentication with mnemoic password". All mnemoic passwords to specific wallets can be in `server/index.js`.
 
-### Video instructions
-For an overview of this project as well as getting started instructions, check out the following video:
+**HINT**
 
-https://www.loom.com/share/0d3c74890b8e44a5918c4cacb3f646c4
+To not writing full mnemoic by your hands you can copy it from `server/index.js` in `balances` object. Then, past it in `client/src/views/Authentication.jsx` to `prase` state.
+
+***
+
+When we click `confirm` button, I created a function which generates private key and public key. This private key allows to sign transaction and alogside with public key send transaction to server. Private key is generated on client and is not sended anywhere, so it can not be comprimised.
+
+###Transeffing assets
+After transaction created on `client` side it is sended to server with `POST`. On server using `secp.recoverPublicKey` from ethereum cryptography library we recover public key. Then, recovered public key compares with saved public key. This comparing gives understanding if transaction is authorized or not.
+
+
  
-### Client
-
-The client folder contains a [react app](https://reactjs.org/) using [vite](https://vitejs.dev/). To get started, follow these steps:
-
-1. Open up a terminal in the `/client` folder
-2. Run `npm install` to install all the depedencies
-3. Run `npm run dev` to start the application 
-4. Now you should be able to visit the app at http://127.0.0.1:5173/
-
-### Server
-
-The server folder contains a node.js server using [express](https://expressjs.com/). To run the server, follow these steps:
-
-1. Open a terminal within the `/server` folder 
-2. Run `npm install` to install all the depedencies 
-3. Run `node index` to start the server 
-
-The application should connect to the default server port (3042) automatically! 
-
-_Hint_ - Use [nodemon](https://www.npmjs.com/package/nodemon) instead of `node` to automatically restart the server on any changes.

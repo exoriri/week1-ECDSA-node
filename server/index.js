@@ -88,6 +88,12 @@ app.post("/send", (req, res) => {
     })
   );
 
+  if (sender === recipient) {
+    return res.status(400).send({
+      message: 'You cannot transfer money to yourself!'
+    })
+  };
+
   const signedTransaction = new Uint8Array(Buffer.from(sign, "hex"));
 
   const pubKey = secp.recoverPublicKey(
@@ -97,8 +103,8 @@ app.post("/send", (req, res) => {
   );
 
   const wallet = balances[sender];
-
   const recipientWallet = balances[recipient];
+
 
   if (!wallet || !toHex(pubKey) === toHex(wallet.publicKey)) {
     return res.status(403).send({

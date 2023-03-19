@@ -32,18 +32,18 @@ const fakeDelayedResponse = (data) => {
     })
 };
 
-const WalletDashboard = ({ address, privateKey }) => {
+const WalletDashboard = ({ address, privateKey, logout }) => {
   const [balance, setBalance] = useState(0);
   const [isPageLoading, setPageLoading] = useState(true);
   const [sendAmount, setSendAmount] = useState("");
   const [recipient, setRecipient] = useState("");
-
+  
   const onTransferMoney = async (e) => {
     e.preventDefault();
     const transaction = {
       sender: address,
       recipient,
-      amount: sendAmount
+      amount: parseInt(sendAmount, 10)
     };
     const transactionBytes = utf8ToBytes(JSON.stringify(transaction));
     const hashedTrasaction = keccak256(transactionBytes);
@@ -94,6 +94,7 @@ const WalletDashboard = ({ address, privateKey }) => {
         balance={balance}
         setBalance={setBalance}
         address={address}
+        logout={logout}
       />
       <Transfer 
         amount={sendAmount}

@@ -1,3 +1,5 @@
+import { Button } from "@mui/material";
+
 function Transfer({ recipientAddress, amount, setRecipient, onAmountChange, transfer }) {
   const setValue = (setter) => (evt) => setter(evt.target.value);
 
@@ -22,8 +24,9 @@ function Transfer({ recipientAddress, amount, setRecipient, onAmountChange, tran
           onChange={setValue(setRecipient)}
         ></input>
       </label>
-
-      <input type="submit" className="button" value="Transfer" />
+      <Button style={{ marginTop: 10 }} type="submit" variant="contained">
+        Transfer
+      </Button>
     </form>
   );
 }

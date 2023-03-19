@@ -22,7 +22,20 @@ const PHRASE_LENGTH = 12;
 const fields = Array(PHRASE_LENGTH).fill(0);
 
 export const Authentification = ({ setWalletData }) => {
-  const [phrase, setPhrase] = useState(['than', 'example', 'Icons', 'Use', 'button', 'Complex', 'Documents', 'library', 'Limitations', 'Cursor', 'Experimental', 'person']);
+  const [phrase, setPhrase] = useState([
+    "advanced",
+    "functions",
+    "message",
+    "considered",
+    "study",
+    "helpful",
+    "cryptography",
+    "where",
+    "digital",
+    "Computing",
+    "possible",
+    "important",
+  ]);
 
   const handlePhraseChange = (e) => {
     const index = e.target.name;

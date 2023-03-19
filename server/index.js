@@ -3,7 +3,7 @@ const app = express();
 const cors = require("cors");
 const secp = require("ethereum-cryptography/secp256k1");
 const { toHex } = require("ethereum-cryptography/utils");
-const { hashMessage, getHexAddressFromPublicKey } = require("../helpers");
+const { hashMessage, getHexAddressFromPublicKey } = require("./helpers");
 
 const port = 3042;
 

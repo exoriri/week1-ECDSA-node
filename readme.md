@@ -2,6 +2,9 @@
 
 This project is a modified version of https://github.com/alchemyplatform/ecdsa-node. Main goal of project is to create web application that allows us to make secure transactions between client/server using Public Key Cryptography.
 
+#### Demo
+https://week1-ecdsa-node-rogf.vercel.app/
+
 ### Only users with existing wallet address and private key are allowed to make a transaction.
 Before showing wallet inrerface to user, I implemented "fake authentication with mnemoic password". All mnemoic passwords to specific wallets can be in `server/index.js`.
 
@@ -15,6 +18,3 @@ When we click `confirm` button, I created a function which generates private key
 
 ###Transeffing assets
 After transaction created on `client` side it is sended to server with `POST`. On server using `secp.recoverPublicKey` from ethereum cryptography library we recover public key. Then, recovered public key compares with saved public key. This comparing gives understanding if transaction is authorized or not.
-
-
- 

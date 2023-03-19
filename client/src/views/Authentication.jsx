@@ -1,3 +1,5 @@
+import * as secp from 'ethereum-cryptography/secp256k1';
+import { toHex } from 'ethereum-cryptography/utils';
 import { TextField, Typography, Button } from "@mui/material";
 import styled from "@emotion/styled";
 import { useState } from "react";
@@ -19,7 +21,7 @@ const PHRASE_LENGTH = 12;
 
 const fields = Array(PHRASE_LENGTH).fill(0);
 
-export const Authentification = ({ setPk, setAddress }) => {
+export const Authentification = ({ setWalletData }) => {
   const [phrase, setPhrase] = useState(['than', 'example', 'Icons', 'Use', 'button', 'Complex', 'Documents', 'library', 'Limitations', 'Cursor', 'Experimental', 'person']);
 
   const handlePhraseChange = (e) => {
@@ -31,13 +33,15 @@ export const Authentification = ({ setPk, setAddress }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-  
+    const pk = secp.utils.randomPrivateKey();
+    const pubKey = secp.getPublicKey(pk);
+
     try {
       const response = await server.post('/authenticate-wallet',{
-          phrase
+          phrase,
+          publicKey: toHex(pubKey)
       });
-      setPk(response.data.privateKey);
-      setAddress(response.data.address);
+      setWalletData(pk, response.data.address);
     } catch(e){
       alert('Error on submitting phrase. Please, contact developer');
     }

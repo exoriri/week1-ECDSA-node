@@ -11,15 +11,10 @@ function App() {
 
   if (!walletData.privateKey) {
     return <Authentification 
-      setPk={(pk) => setWalletData((prevState) => ({ 
-        ...prevState, privateKey: pk 
-      }))}
-      setAddress={address => {
-        setWalletData((prevState) =>({
-          ...prevState,
-          address,
-        }))
-      }}
+      setWalletData={(pk, address) => setWalletData({
+        privateKey: pk,
+        address
+      })}
     />
   };
 
